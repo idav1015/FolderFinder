@@ -1,0 +1,49 @@
+const parentId = "1CLTuXJUlkxnHDKe5uo4IejLZf_FRiVoO"; 
+const sheetId = ""; 
+
+let counter = 0;
+
+
+function findSubfoldersAndExtractStrings(parentId) {
+  // Set the string character to look for
+  var searchChar = '_';
+  
+  // Get the parent folder by ID
+  var parentFolder = DriveApp.getFolderById(parentId);
+  var parentFolderName = parentFolder.getName();
+  
+  // Get all the subfolders within the parent folder
+  var subfolders = parentFolder.getFolders();
+  
+  // Iterate through each subfolder and process the name
+  while (subfolders.hasNext()) {
+    var subfolder = subfolders.next();
+    var subfolderName = subfolder.getName();
+
+    counter += 1;
+    console.log(counter);
+    
+    // Find the last occurrence of the search character
+    var lastIndex = subfolderName.lastIndexOf(searchChar);
+    
+    // Initialize the extractedString variable
+    var extractedString;
+    
+    // Use if statement instead of ternary operator
+    if (lastIndex !== -1) {
+      extractedString = subfolderName.substring(lastIndex + 1);
+    } else {
+      extractedString = 'No "_" found';
+    }
+    
+    // Log the parent folder name, subfolder name, and the extracted string
+    Logger.log('Parent Folder: ' + parentFolderName + ', Subfolder: ' + subfolderName + ', Extracted String: ' + extractedString);
+  }
+}
+
+// You can call the function with a specific parentId
+// findSubfoldersAndExtractStrings('your-parent-folder-id-here');
+
+// You can call the function with a specific parentId
+findSubfoldersAndExtractStrings(parentId);
+
